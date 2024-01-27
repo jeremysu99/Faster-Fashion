@@ -3,11 +3,13 @@ from google.cloud import vision
 from PIL import Image
 from io import BytesIO
 
-def localize_objects_from_url(image_url):
+def detect_objects_and_dominant_colors_from_url(image_url):
     """Localize objects in an image from a URL.
 
     Args:
         image_url (str): The URL of the image.
+        
+    Returns dictionary of {Object : (R,G,B)}
     """
     # initializes vision API
     client = vision.ImageAnnotatorClient()
@@ -48,27 +50,29 @@ def localize_objects_from_url(image_url):
     width = original_image.width
     height = original_image.height
     
+    object_dominant_colors = {}
+    
     # makes cropped temporary images from original image
     for object in image_dimension_dict.keys():
         x_list, y_list = image_dimension_dict[object]
         cut_box = (width * x_list[0], height * y_list[0], width * x_list[1], height * y_list[1])
         cut_image = original_image.crop(cut_box)
-        #cut_image.show()
+        cut_image.show()
         with BytesIO() as byte_stream:
             cut_image.save(byte_stream, format="JPEG")
             image_bytes = byte_stream.getvalue()
             
         #color detection stuff
+        
         image = vision.Image(content=image_bytes)
         response = client.image_properties(image=image)
         props = response.image_properties_annotation
+        dominant_color = None
         for color in props.dominant_colors.colors:
-            print(f"fraction: {color.pixel_fraction}")
-            print(f"\tr: {color.color.red}")
-            print(f"\tg: {color.color.green}")
-            print(f"\tb: {color.color.blue}")
+            if dominant_color == None or color.pixel_fraction > dominant_color:
+                object_dominant_colors[object] = (color.color.red, color.color.green, color.color.blue)
         
-        print('----------------')
+    print(object_dominant_colors)
  
         
     
@@ -78,4 +82,4 @@ def localize_objects_from_url(image_url):
  
 # Specify the path to your image file
 image_file_path = 'https://i.pinimg.com/564x/2e/b8/80/2eb880289f4bf98c3a0cc4a1f85923a6.jpg'
-localize_objects_from_url(image_file_path)
+detect_objects_and_dominant_colors_from_url(image_file_path)

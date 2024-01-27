@@ -7,6 +7,7 @@ from io import BytesIO
 from PIL import Image
 import base64
 from helpers import detect_objects_and_dominant_colors_from_bytes, detect_objects_and_dominant_colors_from_url
+import time
 
 app = Flask(__name__)
 
@@ -42,11 +43,19 @@ def process_image():
         ]
 
         # Redirect to the result page with the data as query parameters
-        return redirect(url_for('result_page'))
+        return render_template('loading.html')
 
     except Exception as e:
         print('Error:', str(e))
         return jsonify({'error': 'Internal Server Error'}), 500
+    
+@app.route('/perform_switch')
+def perform_switch():
+    # Simulate some time-consuming operation
+    time.sleep(2)
+
+    # Redirect to another page
+    return redirect(url_for('result_page'))
 
 @app.route('/result', methods=['GET', 'POST'])
 def result_page():

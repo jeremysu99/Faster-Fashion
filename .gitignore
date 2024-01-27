@@ -1,2 +1,5 @@
 .venv
 __pycache__
+*.jpg
+*.jpeg
+flask_session

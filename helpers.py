@@ -22,8 +22,6 @@ def detect_objects_and_dominant_colors_from_url(image_url):
     image = vision.Image(content=image_content)
     objects = client.object_localization(image=image).localized_object_annotations
 
-    
-
     image_dimension_dict = {}
 
     # takes each object detected and appends its name and area detected IF IT IS CLOTHES
@@ -73,12 +71,6 @@ def detect_objects_and_dominant_colors_from_url(image_url):
                 object_dominant_colors[object] = (color.color.red, color.color.green, color.color.blue)
         
     print(object_dominant_colors)
- 
-        
-    
-    
-  
-  
  
 # Specify the path to your image file
 image_file_path = 'https://i.pinimg.com/564x/2e/b8/80/2eb880289f4bf98c3a0cc4a1f85923a6.jpg'

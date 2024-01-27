@@ -1,39 +1,37 @@
 # app.py
-from flask import Flask, render_template, request, jsonify, redirect, url_for
+from flask import Flask, render_template, request, jsonify, redirect, url_for, session
+from flask_session import Session
 import subprocess
 import os
+from io import BytesIO
+from PIL import Image
+import base64
 
 app = Flask(__name__)
+
+# Configure session to use filesystem (instead of signed cookies)
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
+Session(app)
 
 @app.route('/')
 def upload_page():
     return render_template('upload.html')
 
-@app.route('/loading')
-def loading_page():
-    return render_template('loading.html')
-
-@app.route('/result')
-def result_page():
-    # Retrieve data from query parameters or other sources
-    data = {
-        'original_image_url': request.args.get('original_image_url'),
-        'processed_image_urls': request.args.getlist('processed_image_urls')
-    }
-    return render_template('result.html', **data)
-
-@app.route('/process_image', methods=['POST'])
+@app.route('/process_image', methods=['GET', 'POST'])
 def process_image():
     try:
         file = request.files['file']
 
-        # Save the original file temporarily
-        original_file_path = 'original_image.jpg'
-        file.save(original_file_path)
+        # Read the uploaded image data directly from the BytesIO stream
+        uploaded_image_data = file.read()
 
-        # Run the api.py script with the file path as a command-line argument
-        command = ['python', 'api.py', original_file_path]
-        subprocess.run(command)
+        # Save the image data to the session
+        session['uploaded_image'] = uploaded_image_data
+
+        # Run the api.py script with the image data as a command-line argument
+        #command = ['python', 'api.py', '--image_data', base64.b64encode(uploaded_image_data).decode('utf-8')]
+        #subprocess.run(command)
 
         # Assume some data is returned by the processing
         processed_image_urls = [
@@ -43,11 +41,32 @@ def process_image():
         ]
 
         # Redirect to the result page with the data as query parameters
-        return redirect(url_for('result_page', original_image_url=original_file_path, processed_image_urls=processed_image_urls))
+        return redirect(url_for('result_page'))
 
     except Exception as e:
         print('Error:', str(e))
         return jsonify({'error': 'Internal Server Error'}), 500
+
+@app.route('/result', methods=['GET', 'POST'])
+def result_page():
+    # Retrieve the image data from the session
+    uploaded_image_data = session.get('uploaded_image', None)
+
+    if uploaded_image_data is None:
+        # Handle the case where there is no image data
+        return "No image data found in session"
+
+    # Process the image data as needed
+
+    # Pass the image data to the result template
+    #data = {
+    #    'original_image_data': uploaded_image_data,
+    #    'processed_image_urls': process_image(uploaded_image_data)  # Replace with your actual image processing logic
+    #}
+    
+    uploaded_image_data = base64.b64encode(uploaded_image_data).decode('utf-8')
+
+    return render_template('result.html', uploaded_image_data=uploaded_image_data)
 
 if __name__ == '__main__':
     app.run(debug=True)

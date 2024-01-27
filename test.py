@@ -1,7 +1,7 @@
 import requests
 from google.cloud import vision
 from PIL import Image
-from rembg import remove
+from io import BytesIO
 
 def localize_objects_from_url(image_url):
     """Localize objects in an image from a URL.
@@ -9,6 +9,7 @@ def localize_objects_from_url(image_url):
     Args:
         image_url (str): The URL of the image.
     """
+    # initializes vision API
     client = vision.ImageAnnotatorClient()
 
     response = requests.get(image_url)
@@ -17,13 +18,13 @@ def localize_objects_from_url(image_url):
     original_image = Image.open(BytesIO(image_content))
     
     image = vision.Image(content=image_content)
-
-
     objects = client.object_localization(image=image).localized_object_annotations
+
+    
 
     image_dimension_dict = {}
 
-    #print(objects)
+    # takes each object detected and appends its name and area detected IF IT IS CLOTHES
     for object_ in objects:
         temp_image = original_image.copy()
         if object_.name == "Person":
@@ -43,16 +44,20 @@ def localize_objects_from_url(image_url):
         y_list = list(set(y_list))
         
         image_dimension_dict[object_.name] = (x_list, y_list)
-        
-    print(image_dimension_dict.keys())
     
+    # stuff for color detection 
+    response = client.image_properties(image=image)
+    props = response.image_properties_annotation
+
     width = original_image.width
     height = original_image.height
     
+    # makes cropped temporary images from original image
     for object in image_dimension_dict.keys():
         x_list, y_list = image_dimension_dict[object]
         cut_box = (width * x_list[0], height * y_list[0], width * x_list[1], height * y_list[1])
         cut_image = original_image.crop(cut_box)
+        
         cut_image.show()
     
     

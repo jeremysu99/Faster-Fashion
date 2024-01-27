@@ -2,3 +2,4 @@ flask
 requests
 google.cloud
 PIL
+io

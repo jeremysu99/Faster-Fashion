@@ -1,105 +1,75 @@
-<!-- Include Bootstrap CSS -->
-<link
-  rel="stylesheet"
-  href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-  integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+WyD8DlXeHz3Ozoq0ifHjFO9fdv1YK1fckN"
-  crossorigin="anonymous"
-/>
+{% extends "template.html" %}
 
-<!-- Include Bootstrap JavaScript and dependencies (optional, for certain features) -->
-<script
-  src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-  integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-  crossorigin="anonymous"
-></script>
-<script
-  src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"
-  integrity="sha384-pzjw8Y+U/l9RTOyaD4PzqA+rof5YOd2MIGiCSA7s9VoELxuWq9dQ9UqY7RsQDfn5"
-  crossorigin="anonymous"
-></script>
-<script
-  src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
-  integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+WyD8DlXeHz3Ozoq0ifHjFO9fdv1YK1fckN"
-  crossorigin="anonymous"
-></script>
+{% block title %}
+    Upload
+{% endblock %}
 
-<!-- templates/upload.html -->
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload File</title>
-    <!-- Include Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+WyD8DlXeHz3Ozoq0ifHjFO9fdv1YK1fckN" crossorigin="anonymous">
-    <link rel="stylesheet" href="static/style.css">
-  </head>
-<body>
-  <div class="upload-container">
-    <h1>Upload an Image</h1>
-    <form class="upload-form" action="/process_image" method="post" enctype="multipart/form-data">
-      <div id="drop-area" class="mb-3">
-        <div id="preview-container" style="display: none;">
-          <img class = "img-fluid restricted-image" id="preview-image" src="#" alt="Preview Image">
+{% block main %}
+
+    <div class="upload-container">
+      <h1>Upload an Image</h1>
+      <form class="upload-form" action="/process_image" method="post" enctype="multipart/form-data">
+        <div id="drop-area" class="mb-3">
+          <div id="preview-container" style="display: none;">
+            <img class = "img-fluid restricted-image" id="preview-image" src="#" alt="Preview Image">
+          </div>
+          <div>Drop a file here or click to select one</div>
+          <input type="file" name="file" accept=".png, .jpg, .jpeg" id="fileInput" required onchange="previewImage()">
         </div>
-        <div>Drop a file here or click to select one</div>
-        <input type="file" name="file" accept=".png, .jpg, .jpeg" id="fileInput" required onchange="previewImage()">
-      </div>
-      <button type="submit" class="btn btn-primary upload-btn-right">Upload</button>
-    </form>
-  </div>
+        <button type="submit" class="btn btn-primary upload-btn-right">Upload</button>
+      </form>
+    </div>
 
-  <!-- Include Bootstrap JavaScript and dependencies (optional, for certain features) -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js" integrity="sha384-pzjw8Y+U/l9RTOyaD4PzqA+rof5YOd2MIGiCSA7s9VoELxuWq9dQ9UqY7RsQDfn5" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+WyD8DlXeHz3Ozoq0ifHjFO9fdv1YK1fckN" crossorigin="anonymous"></script>
-  <script>
-    document.getElementById('drop-area').addEventListener('dragover', function(e) {
-      e.preventDefault();
-      this.classList.add('border-primary');
-    });
+    <!-- Include Bootstrap JavaScript and dependencies (optional, for certain features) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js" integrity="sha384-pzjw8Y+U/l9RTOyaD4PzqA+rof5YOd2MIGiCSA7s9VoELxuWq9dQ9UqY7RsQDfn5" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+WyD8DlXeHz3Ozoq0ifHjFO9fdv1YK1fckN" crossorigin="anonymous"></script>
+    <script>
+      document.getElementById('drop-area').addEventListener('dragover', function(e) {
+        e.preventDefault();
+        this.classList.add('border-primary');
+      });
 
-    document.getElementById('drop-area').addEventListener('dragleave', function() {
-      this.classList.remove('border-primary');
-    });
+      document.getElementById('drop-area').addEventListener('dragleave', function() {
+        this.classList.remove('border-primary');
+      });
 
-    document.getElementById('drop-area').addEventListener('drop', function(e) {
-      e.preventDefault();
-      this.classList.remove('border-primary');
+      document.getElementById('drop-area').addEventListener('drop', function(e) {
+        e.preventDefault();
+        this.classList.remove('border-primary');
 
-      var fileInput = document.getElementById('fileInput');
-      var files = e.dataTransfer.files;
+        var fileInput = document.getElementById('fileInput');
+        var files = e.dataTransfer.files;
 
-      if (files.length > 0) {
-        fileInput.files = files;
+        if (files.length > 0) {
+          fileInput.files = files;
+        }
+      });
+
+      function previewImage() {
+        var fileInput = document.getElementById("fileInput");
+        var previewImage = document.getElementById("preview-image");
+        var previewContainer = document.getElementById("preview-container");
+
+        var file = fileInput.files[0];
+
+        if (file) {
+          var reader = new FileReader();
+
+          reader.onload = function (e) {
+            previewImage.src = e.target.result;
+            previewContainer.style.display = "flex"; // Show the preview container
+            previewContainer.style.alignItems = "center";
+            previewContainer.style.lineHeight = "1"; // Adjust line-height for vertical centering
+            previewContainer.style.height = "auto";
+          };
+
+          reader.readAsDataURL(file);
+        } else {
+          // If no file is selected, hide the preview container
+          previewContainer.style.display = "none";
+        }
       }
-    });
-
-    function previewImage() {
-      var fileInput = document.getElementById("fileInput");
-      var previewImage = document.getElementById("preview-image");
-      var previewContainer = document.getElementById("preview-container");
-
-      var file = fileInput.files[0];
-
-      if (file) {
-        var reader = new FileReader();
-
-        reader.onload = function (e) {
-          previewImage.src = e.target.result;
-          previewContainer.style.display = "flex"; // Show the preview container
-          previewContainer.style.alignItems = "center";
-          previewContainer.style.lineHeight = "1"; // Adjust line-height for vertical centering
-          previewContainer.style.height = "auto";
-        };
-
-        reader.readAsDataURL(file);
-      } else {
-        // If no file is selected, hide the preview container
-        previewContainer.style.display = "none";
-      }
-    }
-  </script>
-</body>
-</html>
+    </script>
+{% endblock %}
 

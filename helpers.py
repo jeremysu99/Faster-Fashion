@@ -58,7 +58,6 @@ def detect_objects_and_dominant_colors_from_bytes(image_data):
             image_bytes = byte_stream.getvalue()
             
         #color detection stuff
-        
         image = vision.Image(content=image_bytes)
         response = client.image_properties(image=image)
         props = response.image_properties_annotation
@@ -87,5 +86,5 @@ def detect_objects_and_dominant_colors_from_url(image_url):
     
  
 # Specify the path to your image file
-image_file_path = 'https://i.pinimg.com/564x/2e/b8/80/2eb880289f4bf98c3a0cc4a1f85923a6.jpg'
-detect_objects_and_dominant_colors_from_url(image_file_path)
+image_file_path = 'https://img.freepik.com/premium-photo/close-up-black-t-shirt-isolated_57262-41.jpg'
+#detect_objects_and_dominant_colors_from_url(image_file_path)

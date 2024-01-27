@@ -10,43 +10,43 @@
 <!-- templates/result.html -->
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Results</title>
-    <!-- Include Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+WyD8DlXeHz3Ozoq0ifHjFO9fdv1YK1fckN" crossorigin="anonymous">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Results</title>
+        <!-- Include Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+WyD8DlXeHz3Ozoq0ifHjFO9fdv1YK1fckN" crossorigin="anonymous">
 
-</head>
-<body>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <h2 class="mb-4">Uploaded Image</h2>
-                <img src="{{ uploaded_image_url }}" alt="Uploaded Image">
-            </div>
-            <div class="col-md-6">
-                <h2 class="mb-4">Similar Clothing Images</h2>
-                <div class="card-deck">
-                    {% for result in results %}
-                        <div class="card">
-                            <img src="{{ result.image_url }}" class="card-img-top" alt="Similar Image">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ result.name }}</h5>
-                                <p class="card-text">Price: {{ result.price }}</p>
-                                <p class="card-text">Type: {{ result.type }}</p>
-                                <p class="card-text">Color: {{ result.color }}</p>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h2 class="mb-4">Uploaded Image</h2>
+                    <img id = "ImagePreview" src="data:image/jpg;base64,{{ uploaded_image_data }}" alt="Uploaded Image" class = "img-fluid restricted-image">
+                </div>
+                <div class="col-md-6">
+                    <h2 class="mb-4">Similar Clothing Images</h2>
+                    <div class="card-deck">
+                        {% for result in results %}
+                            <div class="card">
+                                <img src="{{ result.image_url }}" class="card-img-top" alt="Similar Image">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ result.name }}</h5>
+                                    <p class="card-text">Price: {{ result.price }}</p>
+                                    <p class="card-text">Type: {{ result.type }}</p>
+                                    <p class="card-text">Color: {{ result.color }}</p>
+                                </div>
                             </div>
-                        </div>
-                    {% endfor %}
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Include Bootstrap JavaScript and dependencies (optional, for certain features) -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js" integrity="sha384-pzjw8Y+U/l9RTOyaD4PzqA+rof5YOd2MIGiCSA7s9VoELxuWq9dQ9UqY7RsQDfn5" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+WyD8DlXeHz3Ozoq0ifHjFO9fdv1YK1fckN" crossorigin="anonymous"></script>
-</body>
+        <!-- Include Bootstrap JavaScript and dependencies (optional, for certain features) -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js" integrity="sha384-pzjw8Y+U/l9RTOyaD4PzqA+rof5YOd2MIGiCSA7s9VoELxuWq9dQ9UqY7RsQDfn5" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+WyD8DlXeHz3Ozoq0ifHjFO9fdv1YK1fckN" crossorigin="anonymous"></script>
+    </body>
 </html>

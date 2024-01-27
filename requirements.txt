@@ -1,1 +1,7 @@
 flask
+requests
+google.cloud
+PIL
+io
+os
+base64

@@ -1,0 +1,4 @@
+flask
+requests
+google.cloud
+PIL

@@ -3,4 +3,5 @@ import os
 from flask import Flask, flash, redirect, render_template, request, session
 
 # Configure application
-app = Flask(__name__)
+main = Flask(__name__)
+

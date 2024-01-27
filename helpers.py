@@ -2,24 +2,22 @@ import requests
 from google.cloud import vision
 from PIL import Image
 from io import BytesIO
-
-def detect_objects_and_dominant_colors_from_url(image_url):
-    """Localize objects in an image from a URL.
+import base64
+    
+def detect_objects_and_dominant_colors_from_bytes(image_data):
+    """Localize objects in an image from a Bytes.
 
     Args:
-        image_url (str): The URL of the image.
+        image_data (str): The image as a data
         
     Returns dictionary of {Object : (R,G,B)}
     """
     # initializes vision API
     client = vision.ImageAnnotatorClient()
-
-    response = requests.get(image_url)
-    image_content = response.content
     
-    original_image = Image.open(BytesIO(image_content))
+    original_image = Image.open(BytesIO(image_data))
     
-    image = vision.Image(content=image_content)
+    image = vision.Image(content=image_data)
     objects = client.object_localization(image=image).localized_object_annotations
 
     image_dimension_dict = {}
@@ -55,7 +53,6 @@ def detect_objects_and_dominant_colors_from_url(image_url):
         x_list, y_list = image_dimension_dict[object]
         cut_box = (width * x_list[0], height * y_list[0], width * x_list[1], height * y_list[1])
         cut_image = original_image.crop(cut_box)
-        cut_image.show()
         with BytesIO() as byte_stream:
             cut_image.save(byte_stream, format="JPEG")
             image_bytes = byte_stream.getvalue()
@@ -71,6 +68,23 @@ def detect_objects_and_dominant_colors_from_url(image_url):
                 object_dominant_colors[object] = (color.color.red, color.color.green, color.color.blue)
         
     print(object_dominant_colors)
+
+def detect_objects_and_dominant_colors_from_url(image_url):
+    """Localize objects in an image from a URL.
+
+    Args:
+        image_url (str): The URL of the image.
+        
+    Returns dictionary of {Object : (R,G,B)}
+    """
+    # initializes vision API
+    client = vision.ImageAnnotatorClient()
+
+    response = requests.get(image_url)
+    image_content = response.content
+    
+    detect_objects_and_dominant_colors_from_bytes(image_content)
+    
  
 # Specify the path to your image file
 image_file_path = 'https://i.pinimg.com/564x/2e/b8/80/2eb880289f4bf98c3a0cc4a1f85923a6.jpg'

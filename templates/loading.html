@@ -1,22 +1,10 @@
-<!-- Include Bootstrap CSS -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+WyD8DlXeHz3Ozoq0ifHjFO9fdv1YK1fckN" crossorigin="anonymous">
+{% extends "template.html" %}
 
-<!-- Include Bootstrap JavaScript and dependencies (optional, for certain features) -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js" integrity="sha384-pzjw8Y+U/l9RTOyaD4PzqA+rof5YOd2MIGiCSA7s9VoELxuWq9dQ9UqY7RsQDfn5" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+WyD8DlXeHz3Ozoq0ifHjFO9fdv1YK1fckN" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="static/style.css">
+{% block title %}
+    Loading
+{% endblock %}
 
-
-<!-- templates/loading.html -->
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loading...</title>
-  </head>
-  <body>
+{% block main %}
     <h1 class = "center">Loading...</h1>
     <!-- ADD A LOADING SPINNER OR ANIMATION -->
     <script>
@@ -25,6 +13,4 @@
           window.location.href = '/perform_switch';
       }, 500);  // 500 milliseconds delay for the loading page
     </script>
-  </body>
-  
-</html>
+{% endblock %}

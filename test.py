@@ -44,11 +44,7 @@ def localize_objects_from_url(image_url):
         y_list = list(set(y_list))
         
         image_dimension_dict[object_.name] = (x_list, y_list)
-    
-    # stuff for color detection 
-    response = client.image_properties(image=image)
-    props = response.image_properties_annotation
-
+        
     width = original_image.width
     height = original_image.height
     
@@ -57,8 +53,24 @@ def localize_objects_from_url(image_url):
         x_list, y_list = image_dimension_dict[object]
         cut_box = (width * x_list[0], height * y_list[0], width * x_list[1], height * y_list[1])
         cut_image = original_image.crop(cut_box)
+        #cut_image.show()
+        with BytesIO() as byte_stream:
+            cut_image.save(byte_stream, format="JPEG")
+            image_bytes = byte_stream.getvalue()
+            
+        #color detection stuff
+        image = vision.Image(content=image_bytes)
+        response = client.image_properties(image=image)
+        props = response.image_properties_annotation
+        for color in props.dominant_colors.colors:
+            print(f"fraction: {color.pixel_fraction}")
+            print(f"\tr: {color.color.red}")
+            print(f"\tg: {color.color.green}")
+            print(f"\tb: {color.color.blue}")
         
-        cut_image.show()
+        print('----------------')
+ 
+        
     
     
   

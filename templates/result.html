@@ -1,0 +1,43 @@
+{% extends "template.html" %}
+
+{% block title %}
+    Results
+{% endblock %}
+
+{% block main %}
+        <div class="container-fluid" style="margin-left: 10px; margin-right: 10px;">
+            <div class="row">
+                <div class="col-md-6">
+                    <h2 class="mb-4">Uploaded Image</h2>
+                    <img id = "ImagePreview" src="data:image/jpg;base64,{{ uploaded_image_data }}" alt="Uploaded Image" class = "img-fluid restricted-image">
+                </div>
+            </div>
+            <div class="row py-5">
+                <div class="col">
+                    <h2 class="mb-4">Similar {{ gender }} Clothing</h2>
+        {% for i in range(similar_clothes | length) %}
+            {% if i % 6 == 0%}
+                {% if i != 0%}
+                    </div>  
+                {% endif %}
+                {# Close the previous card-deck #}
+                <div class="row">
+            {% endif%}
+                    <div class = col-sm-2>
+                        <a href = "{{ similar_clothes[i][3] }}" target="_blank">
+                            <div class="card">
+                                <img src="{{ similar_clothes[i][2] }}" class="card-img-top" alt="Similar Image">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ similar_clothes[i][0] }}</h5>
+                                    <p class="card-text">Price: {{ similar_clothes[i][1] }}</p>
+                                    <p class="card-text">Type: {{ similar_clothes[i][6] }}</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}

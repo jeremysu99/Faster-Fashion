@@ -1,0 +1,19 @@
+{% extends "template.html" %}
+
+{% block title %}
+    Loading
+{% endblock %}
+
+{% block main %}
+  <div class="container center text-center align-items-center">
+        <h1>Looking for Clothes...</h1>     
+        <img src="static/running.gif" class="restricted-image mx-auto d-block">
+  </div>
+ 
+    <script>
+      // Use JavaScript to perform the delayed redirection
+      setTimeout(function() {
+          window.location.href = '/perform_switch';
+      }, 500);  // 500 milliseconds delay for the loading page
+    </script>
+{% endblock %}

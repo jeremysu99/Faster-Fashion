@@ -23,6 +23,7 @@ def upload_page():
 @app.route('/process_image', methods=['GET', 'POST'])
 def process_image():
     try:
+        
         file = request.files['file']
 
         # Read the uploaded image data directly from the BytesIO stream

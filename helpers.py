@@ -16,7 +16,6 @@ def detect_objects_and_dominant_colors_from_bytes(image_data):
     client = vision.ImageAnnotatorClient()
     
     original_image = Image.open(BytesIO(image_data))
-    
     image = vision.Image(content=image_data)
     objects = client.object_localization(image=image).localized_object_annotations
 
@@ -24,7 +23,6 @@ def detect_objects_and_dominant_colors_from_bytes(image_data):
 
     # takes each object detected and appends its name and area detected IF IT IS CLOTHES
     for object_ in objects:
-        temp_image = original_image.copy()
         if object_.name == "Person":
             continue
         vertex_list = []
@@ -85,6 +83,5 @@ def detect_objects_and_dominant_colors_from_url(image_url):
     detect_objects_and_dominant_colors_from_bytes(image_content)
     
  
-# Specify the path to your image file
 image_file_path = 'https://img.freepik.com/premium-photo/close-up-black-t-shirt-isolated_57262-41.jpg'
-#detect_objects_and_dominant_colors_from_url(image_file_path)
+print(detect_objects_and_dominant_colors_from_url(image_file_path))

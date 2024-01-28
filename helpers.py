@@ -40,7 +40,11 @@ def detect_objects_and_dominant_colors_from_bytes(image_data):
         x_list = list(set(x_list))
         y_list = list(set(y_list))
         
-        image_dimension_dict[object_.name] = (x_list, y_list)
+        if object_.name == 'Jeans':
+            new_name = 'Pants'
+            image_dimension_dict[new_name] = (x_list, y_list)
+        else:
+            image_dimension_dict[object_.name] = (x_list, y_list)
         
     width = original_image.width
     height = original_image.height
@@ -63,6 +67,7 @@ def detect_objects_and_dominant_colors_from_bytes(image_data):
         dominant_color = None
         for color in props.dominant_colors.colors:
             if dominant_color == None or color.pixel_fraction > dominant_color:
+                dominant_color = color.pixel_fraction
                 object_dominant_colors[object] = (color.color.red, color.color.green, color.color.blue)
     
     return object_dominant_colors
@@ -87,28 +92,33 @@ def are_rgb_values_similar(rgb1, rgb2, threshold=30):
     sum = 0
     for i in range(3):
         sum += abs(rgb1[i]-rgb2[i])
-    if sum > threshold: return False
+    if sum > threshold: 
+        return False
     return True
+
+
+
 
 def get_similar_clothes(image_data, gender = None):
     colors = detect_objects_and_dominant_colors_from_bytes(image_data)
     connection = psycopg2.connect(
-    user="jeremysu",
-    password="jeremy509",
-    host="169.234.107.183",
-    port=5432,
-    database="jeremysu"
+        user="jeremysu",
+        password="jeremy509",
+        host="169.234.107.183",
+        port=5432,
+        database="jeremysu"
     )
     cursor = connection.cursor()
+    
     query = "SELECT * FROM scrapedclothes3;"
     cursor.execute(query)
     rows = cursor.fetchall()
     matches = []
-    for row in rows:
-        if row[7] == list(colors.keys())[0]:
-            #print(row[7], list(colors.keys())[0])
-            if are_rgb_values_similar(row[6],list(colors.values())[0]):
-                matches.append(row)
+    for clothes in colors.keys():
+        for row in rows:
+            if row[6] == clothes:
+                if are_rgb_values_similar(row[7],list(colors[clothes])):
+                    matches.append(row)
     gender_matches = []
     
     if not gender == "Other":
@@ -134,11 +144,11 @@ def get_similar_clothes_url(image_data, gender = None):
     cursor.execute(query)
     rows = cursor.fetchall()
     matches = []
-    for row in rows:
-        if row[7] == list(colors.keys())[0]:
-            #print(row[7], list(colors.keys())[0])
-            if are_rgb_values_similar(row[6],list(colors.values())[0]):
-                matches.append(row)
+    for clothes in colors.keys():
+        for row in rows:
+            if row[6] == clothes:
+                if are_rgb_values_similar(row[7],list(colors[clothes])):
+                    matches.append(row)
     gender_matches = []
     
     if not gender == "Other":
@@ -150,12 +160,6 @@ def get_similar_clothes_url(image_data, gender = None):
     
     return gender_matches
 
-    
- 
-# Specify the path to your image file
-#input()
-image_file_path = 'https://lp2.hm.com/hmgoepprod?set=source[/03/36/033621a23b78d8dfe82bb478573936a467454e80.jpg],origin[dam],category[men_jeans_loose],type[DESCRIPTIVESTILLLIFE],res[m],hmver[2]&call=url[file:/product/style]'
-# get_labels_from_url(image_file_path)
-#get_similar_clothes(image_file_path, 'Female')
-    
-#detect_objects_and_dominant_colors_from_url('https://lp2.hm.com/hmgoepprod?set=source[/d5/3b/d53bd8cf50a08abf90f4ee31ec9ad60099cab5f8.jpg],origin[dam],category[],type[DESCRIPTIVESTILLLIFE],res[m],hmver[2]&call=url[file:/product/style]')
+if __name__ == "__main__": 
+    pass 
+

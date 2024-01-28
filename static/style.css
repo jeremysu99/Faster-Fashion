@@ -4,6 +4,22 @@ body {
     padding: 20px;
 }
 
+h1 {
+  text-align: center;
+  font-size: 4em; /* Adjust the font size as needed */
+  font-family: 'Your Chosen Font', sans-serif; /* Specify the font family */
+  color: #333; /* Specify the text color */
+  /* Add more styles as needed */
+}
+
+containerTitle {
+  text-align: center;
+  font-size:2em; /* Adjust the font size as needed */
+  font-family: 'Your Chosen Font', sans-serif; /* Specify the font family */
+  color: #333; /* Specify the text color */
+  /* Add more styles as needed */
+}
+
 h2 {
     color: #007bff; /* Primary color for section headings */
 }

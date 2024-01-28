@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block main %}
-
+    <h1>Find Similar Clothes</h1>
     <div class="upload-container">
       <h1>Upload an Image</h1>
       <form class="upload-form" action="/process_image" method="post" enctype="multipart/form-data">
@@ -18,6 +18,11 @@
         </div>
         <button type="submit" class="btn btn-primary upload-btn-right">Upload</button>
       </form>
+    </div>
+    <div class="text-box-container">
+      <h2>Additional Information</h2>
+      <p>This is some additional information or text that you want to display.</p>
+      <!-- Add more text or elements as needed -->
     </div>
     <script>
       document.getElementById('drop-area').addEventListener('dragover', function(e) {

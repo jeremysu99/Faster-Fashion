@@ -63,7 +63,7 @@ def detect_objects_and_dominant_colors_from_bytes(image_data):
         for color in props.dominant_colors.colors:
             if dominant_color == None or color.pixel_fraction > dominant_color:
                 object_dominant_colors[object] = (color.color.red, color.color.green, color.color.blue)
-        
+    
     return object_dominant_colors
 
 def detect_objects_and_dominant_colors_from_url(image_url):
@@ -80,8 +80,8 @@ def detect_objects_and_dominant_colors_from_url(image_url):
     response = requests.get(image_url)
     image_content = response.content
     
-    detect_objects_and_dominant_colors_from_bytes(image_content)
+    return detect_objects_and_dominant_colors_from_bytes(image_content)
     
  
-image_file_path = 'https://img.freepik.com/premium-photo/close-up-black-t-shirt-isolated_57262-41.jpg'
+image_file_path = 'https://lp2.hm.com/hmgoepprod?set=format%5Bwebp%5D%2Cquality%5B79%5D%2Csource%5B%2F80%2Fac%2F80ac5951a056ede05620372319e5ddc2168bc663.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BDESCRIPTIVESTILLLIFE%5D%2Cres%5Bm%5D%2Chmver%5B2%5D&call=url%5Bfile%3A%2Fproduct%2Fmain%5D'
 print(detect_objects_and_dominant_colors_from_url(image_file_path))

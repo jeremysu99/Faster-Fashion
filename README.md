@@ -30,6 +30,6 @@ Faster Fashion is a web application that leverages image recognition and a Postg
 
 - **HTML/CSS**
   
-- **Jinja**'
+- **Jinja**
 
 ## SETUP AND INSTALLATION

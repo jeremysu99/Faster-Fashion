@@ -32,18 +32,7 @@ def process_image():
         session['uploaded_image'] = uploaded_image_data
         
         session['gender'] = request.form['clothingOption']
-
-        # Run the api.py script with the image data as a command-line argument
-        #command = ['python', 'api.py', '--image_data', base64.b64encode(uploaded_image_data).decode('utf-8')]
-        #subprocess.run(command)
-
-        # Assume some data is returned by the processing
-        processed_image_urls = [
-            'processed_image_url_1.jpg',
-            'processed_image_url_2.jpg',
-            'processed_image_url_3.jpg'
-        ]
-
+        
         # Redirect to the result page with the data as query parameters
         return render_template('loading.html')
 
@@ -68,14 +57,6 @@ def result_page():
     if uploaded_image_data is None:
         # Handle the case where there is no image data
         return "No image data found in session"
-
-    # Process the image data as needed
-
-    # Pass the image data to the result template
-    #data = {
-    #    'original_image_data': uploaded_image_data,
-    #    'processed_image_urls': process_image(uploaded_image_data)  # Replace with your actual image processing logic
-    #}
     
     uploaded_image_data_string = base64.b64encode(uploaded_image_data).decode('utf-8')
     uploaded_image_color_data = detect_objects_and_dominant_colors_from_bytes(uploaded_image_data)

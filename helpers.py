@@ -66,7 +66,6 @@ def detect_objects_and_dominant_colors_from_bytes(image_data):
         props = response.image_properties_annotation
         dominant_color = None
         for color in props.dominant_colors.colors:
-            #print(color.pixel_fraction, color.color.red, color.color.green, color.color.blue)
             if dominant_color == None or color.pixel_fraction > dominant_color:
                 dominant_color = color.pixel_fraction
                 object_dominant_colors[object] = (color.color.red, color.color.green, color.color.blue)
@@ -97,6 +96,9 @@ def are_rgb_values_similar(rgb1, rgb2, threshold=30):
         return False
     return True
 
+
+
+
 def get_similar_clothes(image_data, gender = None):
     colors = detect_objects_and_dominant_colors_from_bytes(image_data)
     connection = psycopg2.connect(
@@ -107,6 +109,7 @@ def get_similar_clothes(image_data, gender = None):
         database="jeremysu"
     )
     cursor = connection.cursor()
+    
     query = "SELECT * FROM scrapedclothes3;"
     cursor.execute(query)
     rows = cursor.fetchall()
@@ -159,12 +162,4 @@ def get_similar_clothes_url(image_data, gender = None):
 
 if __name__ == "__main__": 
     pass 
-    # Specify the path to your image file
-    #input()
-    #image_file_path = 'https://lp2.hm.com/hmgoepprod?set=format%5Bwebp%5D%2Cquality%5B79%5D%2Csource%5B%2Fcf%2F9b%2Fcf9b15edca6196f0855d946eacfe1a3875b30bbe.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BDESCRIPTIVESTILLLIFE%5D%2Cres%5Bm%5D%2Chmver%5B2%5D&call=url%5Bfile%3A%2Fproduct%2Fmain%5D'
-    # get_labels_from_url(image_file_path)
-    #print(get_similar_clothes_url(image_file_path, 'Female'))
-
-    #print("winner!!")
-    #print(detect_objects_and_dominant_colors_from_url(image_file_path))
 

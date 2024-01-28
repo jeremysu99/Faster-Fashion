@@ -102,7 +102,7 @@ def get_similar_clothes(image_data, gender = None):
     connection = psycopg2.connect(
         user="jeremysu",
         password="jeremy509",
-        host="10.8.20.69",
+        host="169.234.107.183",
         port=5432,
         database="jeremysu"
     )

@@ -3,7 +3,40 @@ from google.cloud import vision
 from PIL import Image
 from io import BytesIO
 import base64
+import psycopg2
+
+def get_labels_from_bytes(image_data):
+
+    return_dict = dict()
+    client = vision.ImageAnnotatorClient()
+
+    image = vision.Image(content=image_data)
+    response = client.label_detection(image=image)
+
+    labels = response.label_annotations
+
+    for label in labels:
+        return_dict[label.description] =label.score
+
+    if response.error.message:
+        raise Exception(
+            "{}\nFor more info on error messages, check: "
+            "https://cloud.google.com/apis/design/errors".format(response.error.message)
+        )
     
+    print(return_dict)
+    return return_dict
+
+def get_labels_from_url(image_url):
+    client = vision.ImageAnnotatorClient()
+
+    response = requests.get(image_url)
+    image_content = response.content
+    
+    return(get_labels_from_bytes(image_content))
+    
+
+
 def detect_objects_and_dominant_colors_from_bytes(image_data):
     """Localize objects in an image from a Bytes.
 
@@ -66,8 +99,8 @@ def detect_objects_and_dominant_colors_from_bytes(image_data):
         for color in props.dominant_colors.colors:
             if dominant_color == None or color.pixel_fraction > dominant_color:
                 object_dominant_colors[object] = (color.color.red, color.color.green, color.color.blue)
-        
-    print(object_dominant_colors)
+    print(object_dominant_colors)    
+    return object_dominant_colors
 
 def detect_objects_and_dominant_colors_from_url(image_url):
     """Localize objects in an image from a URL.
@@ -83,9 +116,48 @@ def detect_objects_and_dominant_colors_from_url(image_url):
     response = requests.get(image_url)
     image_content = response.content
     
-    detect_objects_and_dominant_colors_from_bytes(image_content)
+    return detect_objects_and_dominant_colors_from_bytes(image_content)
+
+def are_rgb_values_similar(rgb1, rgb2, threshold=30):
+    sum = 0
+    for i in range(3):
+        sum += abs(rgb1[i]-rgb2[i])
+    print(sum)
+    if sum > threshold: return False
+    return True
+
+def get_similar_clothes(image_url):
+    colors = detect_objects_and_dominant_colors_from_url(image_url)
+    connection = psycopg2.connect(
+    user="jeremysu",
+    password="jeremy509",
+    host="169.234.107.183",
+    port=5432,
+    database="jeremysu"
+    )
+    cursor = connection.cursor()
+    query = "SELECT * FROM scrapedclothes3;"
+    cursor.execute(query)
+    rows = cursor.fetchall()
+    matches = []
+    print(rows[0])
+    for row in rows:
+        if row[7] == list(colors.keys())[0]:
+            print(row[7], list(colors.keys())[0])
+            if are_rgb_values_similar(row[6],list(colors.values())[0]):
+                print(row[0])
+                matches.append(row)
+    
+    print(matches)
+    print(len(matches))
+
     
  
 # Specify the path to your image file
-image_file_path = 'https://i.pinimg.com/564x/2e/b8/80/2eb880289f4bf98c3a0cc4a1f85923a6.jpg'
-detect_objects_and_dominant_colors_from_url(image_file_path)
+input()
+image_file_path = 'https://lp2.hm.com/hmgoepprod?set=source[/03/36/033621a23b78d8dfe82bb478573936a467454e80.jpg],origin[dam],category[men_jeans_loose],type[DESCRIPTIVESTILLLIFE],res[m],hmver[2]&call=url[file:/product/style]'
+# detect_objects_and_dominant_colors_from_url(image_file_path)
+# get_labels_from_url(image_file_path)
+get_similar_clothes(image_file_path)
+    
+#detect_objects_and_dominant_colors_from_url('https://lp2.hm.com/hmgoepprod?set=source[/d5/3b/d53bd8cf50a08abf90f4ee31ec9ad60099cab5f8.jpg],origin[dam],category[],type[DESCRIPTIVESTILLLIFE],res[m],hmver[2]&call=url[file:/product/style]')

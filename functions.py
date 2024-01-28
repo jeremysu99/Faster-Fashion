@@ -1,13 +1,14 @@
-from google.cloud import vision
-
-def comparelists(list1, list2)-> int:
+def comparelists(list1, list2, threshold = 30)-> int:
     score = 0
     for item in list1.keys():
         if item in list2.keys():
             score += max([list1[item],list2[item]])
-    return score
+    if score > max:
+        return False
+    return True
 
 def detect_labels(path):
+    from google.cloud import vision
     """Detects labels in the file."""
     return_dict = dict()
 
@@ -48,7 +49,7 @@ def are_rgb_values_similar(rgb1, rgb2, threshold=509):
 # print(are_rgb_values_similar(rgb1, rgb2))  # Output: True
 # print(are_rgb_values_similar(rgb1, rgb3))  # Output: False
 
-# x=detect_labels('/Users/ramajeenagala/downloads/images.jpeg')
+# x=detect_labels('/Users/ramajeenagala/downloads/images1.jpeg')
 # print(x)
 # y=detect_labels('/Users/ramajeenagala/downloads/images1.jpeg')
 # print(y)

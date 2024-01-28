@@ -6,7 +6,7 @@ import os
 from io import BytesIO
 from PIL import Image
 import base64
-from helpers import detect_objects_and_dominant_colors_from_bytes, detect_objects_and_dominant_colors_from_url
+from helpers import detect_objects_and_dominant_colors_from_bytes, detect_objects_and_dominant_colors_from_url, get_labels_from_bytes
 
 app = Flask(__name__)
 
@@ -67,7 +67,10 @@ def result_page():
     
     uploaded_image_data_string = base64.b64encode(uploaded_image_data).decode('utf-8')
     uploaded_image_color_data = detect_objects_and_dominant_colors_from_bytes(uploaded_image_data)
-    print(uploaded_image_color_data)
+    labels = get_labels_from_bytes(uploaded_image_data)
+
+    #print(uploaded_image_color_data)
+    #print(labels)
     
     return render_template('result.html', uploaded_image_data=uploaded_image_data_string)
 

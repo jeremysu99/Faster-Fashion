@@ -25,10 +25,10 @@
     <div class="upload-container">
       <h1>Upload an Image</h1>
         <div id="drop-area" class="mb-3">
-          <div id="preview-container" style="display: none;" class = "preview-container text-center">
+          <div id="preview-container" style="display: none;" class = "preview-container text-center py-2">
             <img class = "img-fluid restricted-image" id="preview-image" src="#" alt="Preview Image">
           </div>
-          <div>
+          <div id ='file-drop-text'>
             Drop a file here or click to select one
           </div>
           <input type="file" name="file" accept=".png, .jpg, .jpeg" id="fileInput" required onchange="previewImage()">
@@ -63,6 +63,7 @@
         var fileInput = document.getElementById("fileInput");
         var previewImage = document.getElementById("preview-image");
         var previewContainer = document.getElementById("preview-container");
+        var fileTextDrop = document.getElementById("file-drop-text");
 
         var file = fileInput.files[0];
 
@@ -73,6 +74,7 @@
             previewImage.src = e.target.result;
             previewContainer.style.display = "flex"; // Show the preview container
             previewContainer.style.alignItems = "center";
+            fileTextDrop.innerText = ""
           };
 
           reader.readAsDataURL(file);

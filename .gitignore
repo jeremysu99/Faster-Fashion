@@ -3,3 +3,5 @@ __pycache__
 *.jpg
 *.jpeg
 flask_session
+database.py
+database2.py

@@ -26,7 +26,8 @@ img {
 }
 
 .card-img-top {
-    max-height: 200px; /* Set a maximum height for the card image */
+    max-height: 20%;
+    max-width: auto;
     object-fit: cover; /* Ensure the image covers the entire container */
     border-bottom: 2px solid #007bff; /* Border color is a primary color */
 }

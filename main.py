@@ -30,6 +30,8 @@ def process_image():
 
         # Save the image data to the session
         session['uploaded_image'] = uploaded_image_data
+        
+        session['gender'] = request.form['clothingOption']
 
         # Run the api.py script with the image data as a command-line argument
         #command = ['python', 'api.py', '--image_data', base64.b64encode(uploaded_image_data).decode('utf-8')]
@@ -61,7 +63,8 @@ def perform_switch():
 def result_page():
     # Retrieve the image data from the session
     uploaded_image_data = session.get('uploaded_image', None)
-
+    gender_clothing = session.get('gender', 'Both')
+    
     if uploaded_image_data is None:
         # Handle the case where there is no image data
         return "No image data found in session"
@@ -76,9 +79,18 @@ def result_page():
     
     uploaded_image_data_string = base64.b64encode(uploaded_image_data).decode('utf-8')
     uploaded_image_color_data = detect_objects_and_dominant_colors_from_bytes(uploaded_image_data)
-    print(uploaded_image_color_data)
     
-    return render_template('result.html', uploaded_image_data=uploaded_image_data_string)
+    if gender_clothing == 'Male':
+        gender = "Men's"
+    elif gender_clothing == 'Female':
+        gender = "Women's"
+    elif gender_clothing == 'Other':
+        gender = "Men and Women's"
+
+    print(gender_clothing)
+    print(gender)
+    
+    return render_template('result.html', uploaded_image_data=uploaded_image_data_string, uploaded_image_color_data=uploaded_image_color_data, gender=gender)
 
 if __name__ == '__main__':
     app.run(debug=True)

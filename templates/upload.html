@@ -5,10 +5,25 @@
 {% endblock %}
 
 {% block main %}
+  <h5 class = "text-center">
+    What Type of Clothes Are You Searching For?
+  </h5>
+
+  <form class="text-center" action="/process_image" method="post" enctype="multipart/form-data">
+    <div class="mt-3 text-center">
+      <label class="mr-3">
+          <input type="radio" name="clothingOption" value="Male" required> Men's
+      </label>
+      <label class="mr-3">
+          <input type="radio" name="clothingOption" value="Female" required> Women's
+      </label>
+      <label>
+          <input type="radio" name="clothingOption" value="Other" required> Both
+      </label>
+    </div>
 
     <div class="upload-container">
       <h1>Upload an Image</h1>
-      <form class="upload-form" action="/process_image" method="post" enctype="multipart/form-data">
         <div id="drop-area" class="mb-3">
           <div id="preview-container" style="display: none;" class = "preview-container text-center">
             <img class = "img-fluid restricted-image" id="preview-image" src="#" alt="Preview Image">
@@ -19,8 +34,8 @@
           <input type="file" name="file" accept=".png, .jpg, .jpeg" id="fileInput" required onchange="previewImage()">
         </div>
         <button type="submit" class="btn btn-primary upload-btn-right">Upload</button>
-      </form>
-    </div>
+      </div>
+    </form>
     
     <script>
       document.getElementById('drop-area').addEventListener('dragover', function(e) {

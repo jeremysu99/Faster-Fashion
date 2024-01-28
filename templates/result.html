@@ -12,7 +12,7 @@
                     <img id = "ImagePreview" src="data:image/jpg;base64,{{ uploaded_image_data }}" alt="Uploaded Image" class = "img-fluid restricted-image">
                 </div>
                 <div class="col-md-6">
-                    <h2 class="mb-4">Similar Clothing Images</h2>
+                    <h2 class="mb-4">Similar {{ gender }} Clothing</h2>
                     <div class="card-deck">
                         {% for result in results %}
                             <div class="card">

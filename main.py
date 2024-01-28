@@ -70,7 +70,7 @@ def result_page():
         gender = "Men and Women's"
     
     similar_clothes = get_similar_clothes(uploaded_image_data, gender_clothing)
-    print(uploaded_image_color_data)
+    #print(uploaded_image_color_data)
     return render_template('result.html', uploaded_image_data=uploaded_image_data_string, uploaded_image_color_data=uploaded_image_color_data, gender=gender, similar_clothes=similar_clothes)
 
 if __name__ == '__main__':

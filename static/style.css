@@ -3,9 +3,7 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Choose a clean and modern font */
 }
 
-h2 {
-    color: #007bff; /* Primary color for section headings */
-}
+
 
 .no-box-shadow {
   box-shadow: none;

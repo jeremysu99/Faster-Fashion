@@ -6,4 +6,5 @@ flask_session
 database.py
 database2.py
 .DS_Store
-functions.py
+color.json
+database.py

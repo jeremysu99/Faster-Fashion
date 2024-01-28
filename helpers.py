@@ -100,11 +100,11 @@ def are_rgb_values_similar(rgb1, rgb2, threshold=30):
 def get_similar_clothes(image_data, gender = None):
     colors = detect_objects_and_dominant_colors_from_bytes(image_data)
     connection = psycopg2.connect(
-    user="jeremysu",
-    password="jeremy509",
-    host="169.234.107.183",
-    port=5432,
-    database="jeremysu"
+        user="jeremysu",
+        password="jeremy509",
+        host="10.8.20.69",
+        port=5432,
+        database="jeremysu"
     )
     cursor = connection.cursor()
     query = "SELECT * FROM scrapedclothes3;"

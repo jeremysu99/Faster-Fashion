@@ -8,6 +8,7 @@ from PIL import Image
 import base64
 from helpers import detect_objects_and_dominant_colors_from_bytes, get_similar_clothes
 import time
+from random import randint
 
 app = Flask(__name__)
 
@@ -24,6 +25,16 @@ def upload_page():
 def process_image():
     try:
         
+        messages = [
+            'Looking for clothes...',
+            'Rummaging through our wardrobe...',
+            'Searching our closet...',
+            'Definitely not webscraping...',
+            'Finding you heat...'           
+        ]
+        
+        random_element = randint(0,4)
+        
         file = request.files['file']
 
         # Read the uploaded image data directly from the BytesIO stream
@@ -34,7 +45,7 @@ def process_image():
         session['gender'] = request.form['clothingOption']
         
         # Redirect to the result page with the data as query parameters
-        return render_template('loading.html')
+        return render_template('loading.html', loading_message=messages[random_element])
 
     except Exception as e:
         print('Error:', str(e))

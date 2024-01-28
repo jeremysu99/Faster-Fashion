@@ -53,9 +53,6 @@ def process_image():
     
 @app.route('/perform_switch')
 def perform_switch():
-    # Simulate some time-consuming operation
-    time.sleep(2)
-
     # Redirect to another page
     return redirect(url_for('result_page'))
 

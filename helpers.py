@@ -62,7 +62,9 @@ def detect_objects_and_dominant_colors_from_bytes(image_data):
         props = response.image_properties_annotation
         dominant_color = None
         for color in props.dominant_colors.colors:
+            #print(color.pixel_fraction, color.color.red, color.color.green, color.color.blue)
             if dominant_color == None or color.pixel_fraction > dominant_color:
+                dominant_color = color.pixel_fraction
                 object_dominant_colors[object] = (color.color.red, color.color.green, color.color.blue)
     
     return object_dominant_colors
@@ -107,8 +109,8 @@ def get_similar_clothes(image_data, gender = None):
     matches = []
     for clothes in colors.keys():
         for row in rows:
-            if row[7] == clothes:
-                if are_rgb_values_similar(row[6],list(colors.values())[0]):
+            if row[6] == clothes:
+                if are_rgb_values_similar(row[7],list(colors[clothes])):
                     matches.append(row)
     gender_matches = []
     
@@ -137,8 +139,8 @@ def get_similar_clothes_url(image_data, gender = None):
     matches = []
     for clothes in colors.keys():
         for row in rows:
-            if row[7] == clothes:
-                if are_rgb_values_similar(row[6],list(colors.values())[0]):
+            if row[6] == clothes:
+                if are_rgb_values_similar(row[7],list(colors[clothes])):
                     matches.append(row)
     gender_matches = []
     
@@ -155,8 +157,10 @@ def get_similar_clothes_url(image_data, gender = None):
  
 # Specify the path to your image file
 #input()
-image_file_path = 'https://i.pinimg.com/474x/2e/b8/80/2eb880289f4bf98c3a0cc4a1f85923a6.jpg'
+#image_file_path = 'https://lp2.hm.com/hmgoepprod?set=format%5Bwebp%5D%2Cquality%5B79%5D%2Csource%5B%2Fc5%2F2c%2Fc52c830e0b9ce26e670f9a96f713763047b26cf9.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5Bmen_shirts_shortsleeved%5D%2Ctype%5BDESCRIPTIVESTILLLIFE%5D%2Cres%5Bm%5D%2Chmver%5B2%5D&call=url%5Bfile%3A%2Fproduct%2Fmain%5D'
 # get_labels_from_url(image_file_path)
 #print(get_similar_clothes_url(image_file_path, 'Female'))
-    
-#detect_objects_and_dominant_colors_from_url('https://lp2.hm.com/hmgoepprod?set=source[/d5/3b/d53bd8cf50a08abf90f4ee31ec9ad60099cab5f8.jpg],origin[dam],category[],type[DESCRIPTIVESTILLLIFE],res[m],hmver[2]&call=url[file:/product/style]')
+
+#print("winner!!")
+#print(detect_objects_and_dominant_colors_from_url(image_file_path))
+

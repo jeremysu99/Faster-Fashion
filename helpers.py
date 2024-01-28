@@ -5,38 +5,6 @@ from io import BytesIO
 import base64
 import psycopg2
 
-def get_labels_from_bytes(image_data):
-
-    return_dict = dict()
-    client = vision.ImageAnnotatorClient()
-
-    image = vision.Image(content=image_data)
-    response = client.label_detection(image=image)
-
-    labels = response.label_annotations
-
-    for label in labels:
-        return_dict[label.description] =label.score
-
-    if response.error.message:
-        raise Exception(
-            "{}\nFor more info on error messages, check: "
-            "https://cloud.google.com/apis/design/errors".format(response.error.message)
-        )
-    
-    print(return_dict)
-    return return_dict
-
-def get_labels_from_url(image_url):
-    client = vision.ImageAnnotatorClient()
-
-    response = requests.get(image_url)
-    image_content = response.content
-    
-    return(get_labels_from_bytes(image_content))
-    
-
-
 def detect_objects_and_dominant_colors_from_bytes(image_data):
     """Localize objects in an image from a Bytes.
 
@@ -49,7 +17,6 @@ def detect_objects_and_dominant_colors_from_bytes(image_data):
     client = vision.ImageAnnotatorClient()
     
     original_image = Image.open(BytesIO(image_data))
-    
     image = vision.Image(content=image_data)
     objects = client.object_localization(image=image).localized_object_annotations
 
@@ -57,7 +24,6 @@ def detect_objects_and_dominant_colors_from_bytes(image_data):
 
     # takes each object detected and appends its name and area detected IF IT IS CLOTHES
     for object_ in objects:
-        temp_image = original_image.copy()
         if object_.name == "Person":
             continue
         vertex_list = []
@@ -91,7 +57,6 @@ def detect_objects_and_dominant_colors_from_bytes(image_data):
             image_bytes = byte_stream.getvalue()
             
         #color detection stuff
-        
         image = vision.Image(content=image_bytes)
         response = client.image_properties(image=image)
         props = response.image_properties_annotation
@@ -99,7 +64,7 @@ def detect_objects_and_dominant_colors_from_bytes(image_data):
         for color in props.dominant_colors.colors:
             if dominant_color == None or color.pixel_fraction > dominant_color:
                 object_dominant_colors[object] = (color.color.red, color.color.green, color.color.blue)
-    print(object_dominant_colors)    
+    
     return object_dominant_colors
 
 def detect_objects_and_dominant_colors_from_url(image_url):

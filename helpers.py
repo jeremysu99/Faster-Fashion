@@ -4,6 +4,7 @@ from PIL import Image
 from io import BytesIO
 import base64
 import psycopg2
+import csv
 
 def detect_objects_and_dominant_colors_from_bytes(image_data):
     """Localize objects in an image from a Bytes.
@@ -91,15 +92,13 @@ def detect_objects_and_dominant_colors_from_url(image_url):
 def are_rgb_values_similar(rgb1, rgb2, threshold=30):
     sum = 0
     for i in range(3):
-        sum += abs(rgb1[i]-rgb2[i])
+        sum += abs(float(rgb1[i])-float(rgb2[i]))
     if sum > threshold: 
         return False
     return True
 
-
-
-
-def get_similar_clothes(image_data, gender = None):
+def get_similar_clothes_online_db(image_data, gender = None):
+    """Reads rows from DB and compares clothes, returning a list of lists"""
     colors = detect_objects_and_dominant_colors_from_bytes(image_data)
     connection = psycopg2.connect(
         user="jeremysu",
@@ -130,7 +129,8 @@ def get_similar_clothes(image_data, gender = None):
     
     return gender_matches
 
-def get_similar_clothes_url(image_data, gender = None):
+def get_similar_clothes_url_with_online_db(image_data, gender = None):
+    """This one uses a url and online DB"""
     colors = detect_objects_and_dominant_colors_from_url(image_data)
     connection = psycopg2.connect(
     user="jeremysu",
@@ -160,6 +160,65 @@ def get_similar_clothes_url(image_data, gender = None):
     
     return gender_matches
 
-if __name__ == "__main__": 
-    pass 
+def get_similar_clothes(image_data, gender=None):
+    """This one uses CSV files"""
+    colors = detect_objects_and_dominant_colors_from_bytes(image_data)
 
+    # Read data from CSV file
+    with open('static/database.csv', 'r') as csv_file:
+        csv_reader = csv.reader(csv_file)
+        rows = list(csv_reader)
+
+    matches = []
+    for clothes in colors.keys():
+        for row in rows:
+            if row[6] == clothes:
+                initial_color_list = row[7][1:-1]
+                color_list = initial_color_list.split(',')
+                if are_rgb_values_similar(color_list, list(colors[clothes])):
+                    matches.append(row)
+
+    gender_matches = []
+
+    if not gender == "Other":
+        for match in matches:
+            if match[4].upper() == gender.upper():
+                gender_matches.append(match)
+    else:
+        gender_matches = matches
+
+    return gender_matches
+
+def get_similar_clothes_url_csv(image_data, gender=None):
+    """This one uses CSV files AND url"""
+    colors = detect_objects_and_dominant_colors_from_url(image_data)
+
+    # Read data from CSV file
+    with open('static/database.csv', 'r') as csv_file:
+        csv_reader = csv.reader(csv_file)
+        rows = list(csv_reader)
+
+    matches = []
+    for clothes in colors.keys():
+        for row in rows:
+            if row[6] == clothes:
+                initial_color_list = row[7][1:-1]
+                color_list = initial_color_list.split(',')
+                if are_rgb_values_similar(color_list, list(colors[clothes])):
+                    matches.append(row)
+
+    gender_matches = []
+
+    if not gender == "Other":
+        for match in matches:
+            if match[4].upper() == gender.upper():
+                gender_matches.append(match)
+    else:
+        gender_matches = matches
+
+    return gender_matches
+
+
+if __name__ == "__main__": 
+    #get_similar_clothes_url_csv("https://lp2.hm.com/hmgoepprod?set=quality%5B79%5D%2Csource%5B%2Fe6%2F4a%2Fe64a1252f88d2c0fe9c0a185e0a6e3dee308d6ee.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BDESCRIPTIVESTILLLIFE%5D%2Cres%5Bm%5D%2Chmver%5B2%5D&call=url[file:/product/main]")
+    pass

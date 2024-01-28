@@ -47,3 +47,5 @@ Faster Fashion is a web application that leverages image recognition via the Goo
 - Run **export GOOGLE_APPLICATION_CREDENTIALS="path/to/your/credential/json"** in the VSCode terminal to give yourself access to Google Cloud Vision API
 
 - Run main.py and access the test server for Faster Fashion!
+
+- If you get a connection error, go to **chrome://net-internals/#sockets** and click on "Flush socket pools".

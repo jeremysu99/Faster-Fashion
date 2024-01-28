@@ -15,24 +15,25 @@
             <div class="row py-5">
                 <div class="col">
                     <h2 class="mb-4">Similar {{ gender }} Clothing</h2>
-        {% for result in range(13) %}
-            {% if result % 4 == 0%}
-                {% if result != 0%}
+        {% for i in range(similar_clothes | length) %}
+            {% if i % 4 == 0%}
+                {% if i != 0%}
                     </div>  
                 {% endif %}
                 {# Close the previous card-deck #}
                 <div class="row">
             {% endif%}
                     <div class = col-sm-3>
-                        <div class="card">
-                            <img src="{{ result.image_url }}" class="card-img-top" alt="Similar Image">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ result.name }}</h5>
-                                <p class="card-text">Price: {{ result.price }}</p>
-                                <p class="card-text">Type: {{ result.type }}</p>
-                                <p class="card-text">Color: {{ result.color }}</p>
+                        <a href = "{{ similar_clothes[i][3] }}" target="_blank">
+                            <div class="card">
+                                <img src="{{ similar_clothes[i][2] }}" class="card-img-top" alt="Similar Image">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ similar_clothes[i][0] }}</h5>
+                                    <p class="card-text">Price: {{ similar_clothes[i][1] }}</p>
+                                    <p class="card-text">Type: {{ similar_clothes[i][7] }}</p>
+                                </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
         {% endfor %}
                     </div>

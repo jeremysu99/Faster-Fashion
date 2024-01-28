@@ -6,7 +6,7 @@ import os
 from io import BytesIO
 from PIL import Image
 import base64
-from helpers import detect_objects_and_dominant_colors_from_bytes, detect_objects_and_dominant_colors_from_url
+from helpers import detect_objects_and_dominant_colors_from_bytes, get_similar_clothes
 import time
 
 app = Flask(__name__)
@@ -31,7 +31,6 @@ def process_image():
 
         # Save the image data to the session
         session['uploaded_image'] = uploaded_image_data
-        
         session['gender'] = request.form['clothingOption']
         
         # Redirect to the result page with the data as query parameters
@@ -62,17 +61,17 @@ def result_page():
     uploaded_image_data_string = base64.b64encode(uploaded_image_data).decode('utf-8')
     uploaded_image_color_data = detect_objects_and_dominant_colors_from_bytes(uploaded_image_data)
     
+    
     if gender_clothing == 'Male':
         gender = "Men's"
     elif gender_clothing == 'Female':
         gender = "Women's"
     elif gender_clothing == 'Other':
         gender = "Men and Women's"
-
-    print(gender_clothing)
-    print(gender)
     
-    return render_template('result.html', uploaded_image_data=uploaded_image_data_string, uploaded_image_color_data=uploaded_image_color_data, gender=gender)
+    similar_clothes = get_similar_clothes(uploaded_image_data, gender_clothing)
+    #print(similar_clothes)
+    return render_template('result.html', uploaded_image_data=uploaded_image_data_string, uploaded_image_color_data=uploaded_image_color_data, gender=gender, similar_clothes=similar_clothes)
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,7 +1,6 @@
 body {
     background-color: #f8f9fa; /* Set a light background color */
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Choose a clean and modern font */
-    padding: 20px;
 }
 
 h2 {
@@ -47,74 +46,81 @@ img {
     color: #6c757d; /* Text color for card details */
 }
 
-body {
-    background-color: #f8f9fa; /* Set a light background color */
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Choose a clean and modern font */
-  }
+.upload-container {
+  max-width: 400px;
+  margin: auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  margin-top: 50px;
+  text-align: center;
+}
 
-  .upload-container {
-    max-width: 400px;
-    margin: auto;
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    margin-top: 50px;
-    text-align: center;
-  }
+.upload-container h1 {
+  color: #343a40; /* Dark color for the header */
+}
 
-  .upload-container h1 {
-    color: #343a40; /* Dark color for the header */
-  }
+#drop-area {
+  border: 2px dashed #007bff; /* Border color is a primary color */
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 20px;
+  cursor: pointer;
+}
 
-  #drop-area {
-    border: 2px dashed #007bff; /* Border color is a primary color */
-    border-radius: 8px;
-    padding: 20px;
-    margin-top: 20px;
-    cursor: pointer;
-  }
+.upload-btn-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
 
-  .upload-btn-wrapper input[type=file] {
-    font-size: 100px;
-    position: absolute;
-    left: 0;
-    top: 0;
-    opacity: 0;
-  }
+.btn {
+  border: 2px solid #007bff; /* Border color is a primary color */
+  color: #007bff;
+  background-color: #ffffff;
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
 
-  .btn {
-    border: 2px solid #007bff; /* Border color is a primary color */
-    color: #007bff;
-    background-color: #ffffff;
-    padding: 5px 12px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-  }
+.upload-btn-wrapper .btn:hover {
+  background-color: #007bff; /* Change color on hover */
+  color: white;
+}
 
-  .upload-btn-wrapper .btn:hover {
-    background-color: #007bff; /* Change color on hover */
-    color: white;
-  }
+.upload-btn-right {
+  float: center;
+}
 
-  .upload-btn-right {
-    float: right;
-  }
-
-  .restricted-image {
-    max-width: 100%; /* Adjust the maximum width as needed */
-    max-height: 200px; /* Adjust the maximum height as needed */
+.restricted-image {
+  max-width: 100%; /* Adjust the maximum width as needed */
+  max-height: 200px; /* Adjust the maximum height as needed */
 }
 
 .center {
-    margin: 0;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-  }
-  
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.navbar {
+  height: 70px; /* Adjust the height as needed */
+  display: flex;
+  align-items: center; /* Center vertically */
+}
+
+.preview-container {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  text-align: center; /* Optional: Center the content if needed */
+}
 

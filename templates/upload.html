@@ -1,7 +1,7 @@
 {% extends "template.html" %}
 
 {% block title %}
-    Upload
+    Faster Fashion
 {% endblock %}
 
 {% block main %}
@@ -10,15 +10,18 @@
       <h1>Upload an Image</h1>
       <form class="upload-form" action="/process_image" method="post" enctype="multipart/form-data">
         <div id="drop-area" class="mb-3">
-          <div id="preview-container" style="display: none;">
+          <div id="preview-container" style="display: none;" class = "preview-container text-center">
             <img class = "img-fluid restricted-image" id="preview-image" src="#" alt="Preview Image">
           </div>
-          <div>Drop a file here or click to select one</div>
+          <div>
+            Drop a file here or click to select one
+          </div>
           <input type="file" name="file" accept=".png, .jpg, .jpeg" id="fileInput" required onchange="previewImage()">
         </div>
         <button type="submit" class="btn btn-primary upload-btn-right">Upload</button>
       </form>
     </div>
+    
     <script>
       document.getElementById('drop-area').addEventListener('dragover', function(e) {
         e.preventDefault();
@@ -55,8 +58,6 @@
             previewImage.src = e.target.result;
             previewContainer.style.display = "flex"; // Show the preview container
             previewContainer.style.alignItems = "center";
-            previewContainer.style.lineHeight = "1"; // Adjust line-height for vertical centering
-            previewContainer.style.height = "auto";
           };
 
           reader.readAsDataURL(file);

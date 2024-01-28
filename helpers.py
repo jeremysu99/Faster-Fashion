@@ -67,6 +67,7 @@ def detect_objects_and_dominant_colors_from_bytes(image_data):
                 object_dominant_colors[object] = (color.color.red, color.color.green, color.color.blue)
         
     print(object_dominant_colors)
+    return object_dominant_colors
 
 def detect_objects_and_dominant_colors_from_url(image_url):
     """Localize objects in an image from a URL.

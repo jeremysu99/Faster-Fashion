@@ -38,6 +38,12 @@ Faster Fashion is a web application that leverages image recognition and a Postg
 
 - Activate Python 3.12 virtual environment and install all required libraries and frameworks
 
-- Create a Google Cloud API account and follow the instructions to setup the Vision API
+- Create a Google Cloud API account and follow the instructions to setup the project
 
-- Run main.py and access the test server for Faster Fashion
+- Create a test project with the Google Cloud Vision API enabled.
+
+- Ensure you set up a Service Account tied to this project and download the corresponding JSON key attached to that Service Account
+
+- Run **export GOOGLE_APPLICATION_CREDENTIALS="path/to/your/credential/json"** in the VSCode terminal to give yourself access to Google Cloud Vision API
+
+- Run main.py and access the test server for Faster Fashion!

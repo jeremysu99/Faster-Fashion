@@ -3,7 +3,8 @@ from google.cloud import vision
 from PIL import Image
 from io import BytesIO
 import base64
-    
+import psycopg2
+
 def detect_objects_and_dominant_colors_from_bytes(image_data):
     """Localize objects in an image from a Bytes.
 
@@ -81,7 +82,47 @@ def detect_objects_and_dominant_colors_from_url(image_url):
     image_content = response.content
     
     return detect_objects_and_dominant_colors_from_bytes(image_content)
+
+def are_rgb_values_similar(rgb1, rgb2, threshold=30):
+    sum = 0
+    for i in range(3):
+        sum += abs(rgb1[i]-rgb2[i])
+    print(sum)
+    if sum > threshold: return False
+    return True
+
+def get_similar_clothes(image_url):
+    colors = detect_objects_and_dominant_colors_from_url(image_url)
+    connection = psycopg2.connect(
+    user="jeremysu",
+    password="jeremy509",
+    host="169.234.107.183",
+    port=5432,
+    database="jeremysu"
+    )
+    cursor = connection.cursor()
+    query = "SELECT * FROM scrapedclothes3;"
+    cursor.execute(query)
+    rows = cursor.fetchall()
+    matches = []
+    print(rows[0])
+    for row in rows:
+        if row[7] == list(colors.keys())[0]:
+            print(row[7], list(colors.keys())[0])
+            if are_rgb_values_similar(row[6],list(colors.values())[0]):
+                print(row[0])
+                matches.append(row)
+    
+    print(matches)
+    print(len(matches))
+
     
  
-image_file_path = 'https://lp2.hm.com/hmgoepprod?set=format%5Bwebp%5D%2Cquality%5B79%5D%2Csource%5B%2F80%2Fac%2F80ac5951a056ede05620372319e5ddc2168bc663.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BDESCRIPTIVESTILLLIFE%5D%2Cres%5Bm%5D%2Chmver%5B2%5D&call=url%5Bfile%3A%2Fproduct%2Fmain%5D'
-print(detect_objects_and_dominant_colors_from_url(image_file_path))
+# Specify the path to your image file
+input()
+image_file_path = 'https://lp2.hm.com/hmgoepprod?set=source[/03/36/033621a23b78d8dfe82bb478573936a467454e80.jpg],origin[dam],category[men_jeans_loose],type[DESCRIPTIVESTILLLIFE],res[m],hmver[2]&call=url[file:/product/style]'
+# detect_objects_and_dominant_colors_from_url(image_file_path)
+# get_labels_from_url(image_file_path)
+get_similar_clothes(image_file_path)
+    
+#detect_objects_and_dominant_colors_from_url('https://lp2.hm.com/hmgoepprod?set=source[/d5/3b/d53bd8cf50a08abf90f4ee31ec9ad60099cab5f8.jpg],origin[dam],category[],type[DESCRIPTIVESTILLLIFE],res[m],hmver[2]&call=url[file:/product/style]')

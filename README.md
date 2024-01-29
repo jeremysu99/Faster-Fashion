@@ -1,3 +1,5 @@
+
+🏆[IrvineHacks 2024 Best Use of Google Cloud API Winner](https://devpost.com/software/faster-fashion) 
 # FASTER FASHION
 
 ## OVERVIEW

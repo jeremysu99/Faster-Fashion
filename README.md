@@ -50,7 +50,7 @@ Faster Fashion is a web application that leverages image recognition via the Goo
 
 - Run **export GOOGLE_APPLICATION_CREDENTIALS="path/to/your/credential/json"** in the VSCode terminal to give yourself access to Google Cloud Vision API
 
-- Connect to the PostgreSQL database with:
+- Currently, we have a csv file to store our database of clothes to avoid hassle, but if you wish to view the original database, connect to the PostgreSQL database with:
   `psql -h 47.152.33.67 -p 5432 -U jeremysu -d jeremysu`
 
 - Run main.py and access the test server for Faster Fashion!

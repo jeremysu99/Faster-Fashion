@@ -220,5 +220,5 @@ def get_similar_clothes_url_csv(image_data, gender=None):
 
 
 if __name__ == "__main__": 
-    #get_similar_clothes_url_csv("https://lp2.hm.com/hmgoepprod?set=quality%5B79%5D%2Csource%5B%2Fe6%2F4a%2Fe64a1252f88d2c0fe9c0a185e0a6e3dee308d6ee.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BDESCRIPTIVESTILLLIFE%5D%2Cres%5Bm%5D%2Chmver%5B2%5D&call=url[file:/product/main]")
+    get_similar_clothes_url_csv("https://lp2.hm.com/hmgoepprod?set=quality%5B79%5D%2Csource%5B%2Fe6%2F4a%2Fe64a1252f88d2c0fe9c0a185e0a6e3dee308d6ee.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BDESCRIPTIVESTILLLIFE%5D%2Cres%5Bm%5D%2Chmver%5B2%5D&call=url[file:/product/main]")
     pass

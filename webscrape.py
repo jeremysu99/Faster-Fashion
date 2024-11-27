@@ -32,48 +32,45 @@ def scrape():
         
         project_gallery_data: List[List] = []    
         
-        # There are two pages in the project gallery. Let's scrape each one
-        for i in range(1):
+        # Construct the full URL of the page we want to scrape
+        url = BASE_URL
+        urlHM = HM_URL
+        # Make a GET request to the url to retrieve the page HTML
+        page = requests.get(url, headers={'User-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'})
+        pageHM = requests.get(urlHM, headers={'User-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'})
+
+        # Read the page HTML into BeautifulSoup
+        soup = BeautifulSoup(page.text, 'html.parser')
+
+        print(soup.find_all('li', class_='sc-iAEawV'))
+
+        # Loop through all of the project "tiles"
+        count=0
+        for project in soup.find_all('li', attrs={'class': 'sc-iAEawV'}):
+            data = []
+            count+=1
+            print('hi')
+            Product_Name = project.findChild('a', class_ = 'link').text.strip()
+            Price = project.findChild('span', class_="price regular").text.strip()
+            Web_URL = project.findChild('a', class_="link").get('href')
+            Image_URL = project.findChild('img', class_="item-image").get('data-altimage')
+            # Project Name
+            data.append(Product_Name)
+            # Project description
+            data.append(Price)
+            # Number of likes
+            data.append('https:' +Image_URL)
+            # Number of comments
+            data.append('https://wwww.uniqlo.com' + Web_URL)
+            # Link to thumbnail image           
+            # Add this project's data to our list of all project data
+            project_gallery_data.append(data)
             
-            # Construct the full URL of the page we want to scrape
-            url = BASE_URL
-            urlHM = HM_URL
-            # Make a GET request to the url to retrieve the page HTML
-            page = requests.get(url, headers={'User-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'})
-            pageHM = requests.get(urlHM, headers={'User-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'})
-
-            # Read the page HTML into BeautifulSoup
-            soup = BeautifulSoup(page.text, 'html.parser')
-
-            print(soup.find_all('li', class_='sc-iAEawV'))
-
-            # Loop through all of the project "tiles"
-            count=0
-            for project in soup.find_all('li', attrs={'class': 'sc-iAEawV'}):
-                data = []
-                count+=1
-                print('hi')
-                Product_Name = project.findChild('a', class_ = 'link').text.strip()
-                Price = project.findChild('span', class_="price regular").text.strip()
-                Web_URL = project.findChild('a', class_="link").get('href')
-                Image_URL = project.findChild('img', class_="item-image").get('data-altimage')
-                # Project Name
-                data.append(Product_Name)
-                # Project description
-                data.append(Price)
-                # Number of likes
-                data.append('https:' +Image_URL)
-                # Number of comments
-                data.append('https://wwww.uniqlo.com' + Web_URL)
-                # Link to thumbnail image           
-                # Add this project's data to our list of all project data
-                project_gallery_data.append(data)
-                
-                if verbose:
-                    print('Product Name:', Product_Name)
-                    print('Price:', Price)
-                    print('Image URL:', 'https:' +Image_URL)
-                    print('Web_URL:', 'https://wwww.uniqlo.com' + Web_URL)
+            if verbose:
+                print('Product Name:', Product_Name)
+                print('Price:', Price)
+                print('Image URL:', 'https:' +Image_URL)
+                print('Web_URL:', 'https://wwww.uniqlo.com' + Web_URL)
         return project_gallery_data
         
     project_data = scrape(verbose=True)
